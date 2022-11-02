@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="../resource/logo.ico" type="image/x-icon">
+      <link rel="stylesheet" href="../css/app.css">
+      <title>My Board</title>
+</head>
+
+<body>
+      <div class="toolbar">
+            <div class="pointer" data-name="pointer">
+                  <div class="img"></div>
+                  <span class="placeholder">pointer</span>
+            </div>
+            <div class="pen" data-name="pen">
+                  <div class="img"></div>
+                  <span class="placeholder">pen</span>
+                  <div class="option">
+                        <div class="size">
+                              <div>
+                                    <h2>Pen Size</h2>
+                                    <span id="value">5px</span>
+                              </div>
+                              <input type="range" value="4" id="size" min="4" max="30">
+                        </div>
+                        <div class="color">
+                              <h2>Pen Color</h2>
+                              <div>
+                                    <span id="black" class="slected"></span>
+                                    <span id="white"></span>
+                                    <span id="red"></span>
+                                    <span id="blue"></span>
+                                    <span id="green"></span>
+                                    <span id="yellow"></span>
+                                    <span id="purple"></span>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div class="text" data-name="text">
+                  <div class="img"></div>
+                  <span class="placeholder">text</span>
+                  <!-- <div class="option">
+                        <div class="size">
+                              <h2>Text Size</h2>
+                              <span id="value">5px</span>
+                              <input type="range" value="1" id="size">
+                        </div>
+                        <div class="color">
+                              <h2>Text Color</h2>
+                              <span id="red"></span>
+                              <span id="blue"></span>
+                              <span id="green"></span>
+                              <span id="yellow"></span>
+                              <span id="purple"></span>
+                              <span id="white"></span>
+                              <span id="black"></span>
+                        </div>
+                  </div> -->
+            </div>
+            <div class="shapes" data-name="shapes">
+                  <div class="img"></div>
+                  <span class="placeholder">shapes</span>
+            </div>
+            <div class="image" data-name="image">
+                  <div class="img"></div>
+                  <span class="placeholder">image</span>
+            </div>
+            <div class="eraser" data-name="eraser">
+                  <div class="img"></div>
+                  <span class="placeholder">eraser</span>
+                  <!-- <div class="option">
+                        <div class="size">
+                              <h2>Eraser Size</h2>
+                              <span id="value">5px</span>
+                              <input type="range" value="1" id="size">
+                        </div>
+                        <div class="clear">Clear Page</div>
+                  </div> -->
+            </div>
+            <div class="undo" data-name="undo">
+                  <div class="img"></div>
+                  <span class="placeholder">undo</span>
+            </div>
+      </div>
+      <div class="container">
+            <div class="cvs-bg"></div>
+            <canvas></canvas>
+      </div>
+      <script src="../script/app.js"></script>
+</body>
+
+</html>

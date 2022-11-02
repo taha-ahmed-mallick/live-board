@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&family=Roboto:wght@300;400;500;600&display=swap');
+
+* {
+      margin: 0%;
+      padding: 0%;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+      transition: 0.25s ease-in-out;
+      user-select: none;
+}
+
+body {
+      height: 100vh;
+      width: 100vw;
+}
+
+div.container {
+      position: absolute;
+      top: 0;
+      left: 0;
+}
+
+canvas,
+div.cvs-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+}
+
+div.toolbar {
+      position: absolute;
+      z-index: 100;
+      height: 60vh;
+      margin: 20vh 20px;
+      border-radius: 50px;
+      padding: 10px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      box-shadow: 0px 0px 9px 0px #282828;
+      background: #f4f6f8;
+}
+
+div.toolbar>div {
+      width: 40px;
+      height: 40px;
+      background: #ffffff;
+      border-radius: 50px;
+      margin: 3px 0px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+div.toolbar>div:hover {
+      background: #3b3e66;
+}
+
+div.toolbar>div>div.img {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 30px;
+      width: 30px;
+}
+
+div.pointer div.img {
+      background: url(../resource/app/blue/pointer.svg);
+}
+
+div.pen div.img {
+      background: url(../resource/app/blue/pen.svg);
+}
+
+div.text div.img {
+      background: url(../resource/app/blue/text.svg);
+}
+
+div.shapes div.img {
+      background: url(../resource/app/blue/shapes.svg);
+}
+
+div.image div.img {
+      background: url(../resource/app/blue/image.svg);
+}
+
+div.eraser div.img {
+      background: url(../resource/app/blue/eraser.svg);
+}
+
+div.undo div.img {
+      background: url(../resource/app/blue/undo.svg);
+}
+
+div.pointer>span.placeholder,
+div.pen>span.placeholder,
+div.text>span.placeholder,
+div.shapes>span.placeholder,
+div.image>span.placeholder,
+div.eraser>span.placeholder,
+div.undo>span.placeholder {
+      position: absolute;
+      left: 150%;
+      background: #555555;
+      padding: 5px;
+      border-radius: 3px;
+      color: #ffffff;
+      text-transform: capitalize;
+      visibility: hidden;
+}
+
+div.option {
+      position: absolute;
+      left: 150%;
+      background: #f4f6f8;
+      padding: 15px;
+      border-radius: 10px;
+      color: #919eab;
+      font-weight: 500;
+      text-transform: capitalize;
+      font-size: 17px;
+      border: 0.5px solid #dfe3e6;
+      width: 330px;
+      cursor: default;
+}
+
+div.option::after {
+      content: '';
+      transform: translate(-53%, -50%) rotate(45deg);
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      background: #f4f6f8;
+      top: 50%;
+      left: 0;
+      border: 0.5px solid #dfe3e6;
+      border-top: 0px;
+      border-right: 0px;
+}
+
+div.option h2 {
+      font-size: 15px;
+      display: inline-block;
+}
+
+div.option span#value {
+      font-weight: 600;
+}
+
+div.size>div:not(div.color) {
+      display: flex;
+      justify-content: space-between;
+}
+
+div.size input {
+      width: 100%;
+      cursor: pointer;
+      appearance: none;
+      border-radius: 50px;
+      background: #f8f9fa;
+      border: 1px solid #e7e8ea;
+      padding: 5px;
+      height: 11px;
+      margin: 16px 0px;
+}
+
+div.size input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background: #f4f6f8;
+      height: 20px;
+      width: 20px;
+      border-radius: 20px;
+      border: 3px solid #32325d;
+      box-shadow: 0px 0px 3px 0px #555555;
+}
+
+div.color div {
+      margin: 5px;
+      margin-left: 0px;
+      padding: 5px;
+      padding-left: 0px;
+      display: flex;
+      justify-content: space-around;
+}
+
+div.color span {
+      height: 25px;
+      width: 25px;
+      border: 3px solid #ffffff;
+      border-radius: 50px;
+      cursor: pointer;
+}
+
+div.color span:hover {
+      border: 3px solid #3b3e664f;
+}
+
+div.color span.slected {
+      border: 3px solid #3b3e66;
+}
