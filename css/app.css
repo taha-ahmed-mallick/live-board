@@ -123,6 +123,7 @@ div.option {
       border: 0.5px solid #dfe3e6;
       width: 330px;
       cursor: default;
+      display: none;
 }
 
 div.option::after {
@@ -194,8 +195,30 @@ div.color span {
 
 div.color span:hover {
       border: 3px solid #3b3e664f;
+      transform: scale(1.2);
 }
 
 div.color span.slected {
       border: 3px solid #3b3e66;
+}
+
+div.option div.clear {
+      padding: 11px;
+      margin: 10px;
+      width: fit-content;
+      background: #1eb270;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 16px;
+      border-radius: 8px;
+}
+
+div.option div.clear:hover {
+      opacity: 0.85;
+      cursor: pointer;
+}
+
+div.option div.clear:active {
+      opacity: 0.85;
+      transform: scale(1.1);
 }
