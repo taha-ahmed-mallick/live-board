@@ -104,12 +104,17 @@ div.undo div.img {
       background: url(../resource/app/blue/undo.svg);
 }
 
+div.redo div.img {
+      background: url(../resource/app/blue/redo.svg);
+}
+
 div.pointer>span.placeholder,
 div.pen>span.placeholder,
 div.text>span.placeholder,
 div.image>span.placeholder,
 div.eraser>span.placeholder,
-div.undo>span.placeholder {
+div.undo>span.placeholder,
+div.redo>span.placeholder {
       position: absolute;
       left: 150%;
       background: #555555;

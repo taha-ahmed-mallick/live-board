@@ -52,10 +52,11 @@ function draw(x, y) {
       ctx.stroke();
 }
 
-function stopDraw() {
+function stopDraw(eve) {
       painting = false;
       ctx.stroke();
       ctx.beginPath();
+      pushImg(eve);
 }
 
 // Text
@@ -88,11 +89,43 @@ function erase(x, y) {
       console.log("erasing");
 }
 
-function eraseEnd() {
+function eraseEnd(eve) {
       erasing = false;
+      pushImg(eve);
 }
 
 eraserElement.children[2].children[1].addEventListener('click', () => ctx.clearRect(0, 0, widthW, heightW));
+
+// undo functionality
+let restoreArr = [];
+let index = -1;
+let undoElement = document.getElementsByClassName('undo')[0];
+let redoElement = document.getElementsByClassName('redo')[0];
+
+function pushImg(eve) {
+      if (eve.type != 'mouseout') {
+            restoreArr.push(ctx.getImageData(0, 0, widthW, heightW));
+            index++;
+            console.log(restoreArr);
+      }
+}
+
+pushImg({ type: undefined });
+
+function undoLast() {
+      if (index == 0) return;
+      index--;
+      ctx.putImageData(restoreArr[index], 0, 0);
+}
+
+function redoNext() {
+      if (index == restoreArr.length - 1) return;
+      index++;
+      ctx.putImageData(restoreArr[index], 0, 0);
+}
+
+undoElement.addEventListener('click', undoLast);
+redoElement.addEventListener('click', redoNext);
 
 // Eventlistners
 cvs.addEventListener('mousedown', eve => {
@@ -201,3 +234,5 @@ for (let i = 0; i < colorElement.length; i++) {
             }
       });
 }
+
+// Git Push
