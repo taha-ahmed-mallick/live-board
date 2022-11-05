@@ -85,7 +85,7 @@ function eraseStart(eve) {
 
 function erase(x, y) {
       if (!erasing) return;
-      ctx.clearRect(x - cvs.offsetLeft, y - cvs.offsetTop, eraserSize - cvs.offsetLeft, eraserSize - cvs.offsetTop);
+      ctx.clearRect(x - 0.5 * eraserSize - cvs.offsetLeft, y - 0.5 * eraserSize - cvs.offsetTop, eraserSize - cvs.offsetLeft, eraserSize - cvs.offsetTop);
       console.log("erasing");
 }
 
@@ -104,9 +104,15 @@ let redoElement = document.getElementsByClassName('redo')[0];
 
 function pushImg(eve) {
       if (eve.type != 'mouseout') {
-            restoreArr.push(ctx.getImageData(0, 0, widthW, heightW));
-            index++;
-            console.log(restoreArr);
+            if (index != restoreArr.length - 1) {
+                  restoreArr = restoreArr.slice(0, index + 1);
+                  restoreArr.push(ctx.getImageData(0, 0, widthW, heightW));
+                  index++;
+            } else {
+                  restoreArr.push(ctx.getImageData(0, 0, widthW, heightW));
+                  index++;
+                  console.log(restoreArr);
+            }
       }
 }
 
@@ -139,11 +145,11 @@ cvs.addEventListener('mousemove', eve => {
 });
 cvs.addEventListener('mouseup', eve => {
       if (action == 'pen') stopDraw(eve);
-      if (action == 'eraser') eraseEnd();
+      if (action == 'eraser') eraseEnd(eve);
 });
 cvs.addEventListener('mouseout', eve => {
       if (action == 'pen') stopDraw(eve);
-      if (action == 'eraser') eraseEnd();
+      if (action == 'eraser') eraseEnd(eve);
 });
 cvs.addEventListener('touchstart', eve => {
       if (action == 'pen') startDraw(eve);
@@ -175,7 +181,7 @@ for (let i = 0; i < toolsImg.length; i++) {
       });
       toolsImg[i].addEventListener('click', () => {
             let attrName = tools[i].getAttribute("data-name");
-            action = attrName;
+            if (attrName != 'undo' || attrName != 'redo') action = attrName;
             if (attrName == 'eraser') {
                   eraserBox.style.display = 'inline-block';
             } else {
@@ -234,5 +240,3 @@ for (let i = 0; i < colorElement.length; i++) {
             }
       });
 }
-
-// Git Push

@@ -183,6 +183,5 @@ div.account div:hover span:nth-child(4) {
 }
 
 div.account div:active {
-      padding: 10px;
-      transition: 0.1s padding;
+      transform: scale(0.95);
 }
