@@ -237,3 +237,207 @@ div.option div.clear:active {
       opacity: 0.85;
       transform: scale(1.1);
 }
+
+div.other-tool {
+      position: absolute;
+      z-index: 100;
+      width: 150px;
+      margin: 20px 0px;
+      border-radius: 50px;
+      padding: 10px 5px;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      box-shadow: 0px 0px 9px 0px #282828;
+      background: #f4f6f8;
+      right: 20px;
+      transform: scale(1.15);
+}
+
+div.other-tool div {
+      position: relative;
+      height: 30px;
+      width: 30px;
+      background: #ffffff;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 15px;
+      cursor: pointer;
+}
+
+div.other-tool div.record {
+      background-image: url(../resource/app/norm/rec.svg);
+}
+
+div.other-tool div.down-img {
+      background-image: url(../resource/app/norm/download.svg);
+}
+
+div.other-tool div.bg {
+      background-image: url(../resource/app/norm/bg.svg);
+}
+
+div.other-tool div::after {
+      content: '';
+      position: absolute;
+      height: 0%;
+      width: 0%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50px;
+      transition: 0.25s linear;
+}
+
+div.other-tool div:active::after {
+      height: 100%;
+      width: 100%;
+      background: #c2c2c238;
+}
+
+div.download-content-img,
+div.download-content-video {
+      height: 80vh;
+      width: 80vw;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 25px;
+      border-radius: 10px;
+      background: #efefef;
+      z-index: 100;
+      box-shadow: 0px 0px 20px 0px #282828;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      display: none;
+}
+
+div.download-content-img img,
+video {
+      width: 90%;
+      height: 80%;
+      margin: 0% 10%;
+}
+
+div.close {
+      height: 40px;
+      width: 40px;
+      position: relative;
+      right: -47%;
+      margin: 0px 0px 8px 0px;
+      cursor: pointer;
+}
+
+div.close span {
+      position: absolute;
+      width: 100%;
+      height: 3.5px;
+      background: #ffffff;
+}
+
+div.close span:nth-child(1) {
+      transform: rotate(45deg);
+}
+
+div.close span:nth-child(2) {
+      transform: rotate(-45deg);
+}
+
+div.close:hover span:nth-child(1) {
+      transform: rotate(-45deg);
+}
+
+div.close:hover span:nth-child(2) {
+      transform: rotate(45deg);
+}
+
+div.close:hover span {
+      background: #f44336;
+}
+
+div.close:active {
+      transform: scale(0.95);
+}
+
+div.dow-opt {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+}
+
+div.dow-opt>span,
+div.download-content-video>span {
+      padding: 15px;
+      border-radius: 8px;
+      background: #2196f3;
+      color: #ffffff;
+      cursor: pointer;
+}
+
+div.dow-opt>span:hover,
+div.download-content-video>span:hover {
+      background: #54a8ed;
+}
+
+div.dow-opt>span:active,
+div.download-content-video>span:active {
+      transform: scale(0.95);
+}
+
+div.download-content-img div.select {
+      cursor: pointer;
+      transform: translateY(-50%);
+      text-transform: capitalize;
+}
+
+div.download-content-img div.selected {
+      background: #2196f3;
+      color: #ffffff;
+      font-weight: 500;
+      padding: 5px;
+      border-radius: 2px;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      width: 120px;
+}
+
+div.selected:hover {
+      background: #4c9ee1 !important;
+}
+
+div.select div.expand {
+      background-image: url(../resource/app/norm/expand.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 10px;
+      transition: 0.35s linear;
+}
+
+div.expand.open {
+      transform: rotateX(180deg);
+}
+
+div.select div.option-img {
+      display: flex;
+      flex-wrap: wrap;
+      position: absolute;
+      width: 120px;
+      visibility: hidden;
+}
+
+div.option-img span {
+      width: 100%;
+      background: #03A9F4;
+      color: #ffffff;
+      display: flex;
+      height: 28px;
+      align-items: center;
+      padding: 7px;
+}

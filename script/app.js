@@ -14,6 +14,7 @@ let color = {
       purple: "#9c27b0"
 };
 let action = 'pen';
+let mode = 'normal';
 
 // Canvas Sizing
 function resize() {
@@ -94,7 +95,10 @@ function eraseEnd(eve) {
       pushImg(eve);
 }
 
-eraserElement.children[2].children[1].addEventListener('click', () => ctx.clearRect(0, 0, widthW, heightW));
+eraserElement.children[2].children[1].addEventListener('click', (eve) => {
+      ctx.clearRect(0, 0, widthW, heightW);
+      pushImg(eve);
+});
 
 // undo functionality
 let restoreArr = [];
@@ -121,17 +125,87 @@ pushImg({ type: undefined });
 function undoLast() {
       if (index == 0) return;
       index--;
-      ctx.putImageData(restoreArr[index], 0, 0);
+      ctx.putImageData(restoreArr[index], 0, 0, 0, 0, widthW, heightW);
 }
 
 function redoNext() {
       if (index == restoreArr.length - 1) return;
       index++;
-      ctx.putImageData(restoreArr[index], 0, 0);
+      ctx.putImageData(restoreArr[index], 0, 0, 0, 0, widthW, heightW);
 }
 
 undoElement.addEventListener('click', undoLast);
 redoElement.addEventListener('click', redoNext);
+
+// Download Canvas
+let downIcon = document.getElementsByClassName('down-img')[0];
+let downContent = document.getElementsByClassName('download-content-img')[0];
+let imgTypeEle = downContent.children[2].children[1];
+let downEle = downContent.children[2].children[0];
+let options = imgTypeEle.children[1].children;
+let imgType = "png"
+downIcon.addEventListener('click', () => {
+      let dataURI = cvs.toDataURL();
+      downContent.children[1].src = dataURI;
+      downContent.style.display = "flex";
+});
+
+downContent.children[0].addEventListener('click', () => {
+      downContent.style.display = "none";
+});
+
+imgTypeEle.children[0].addEventListener('click', () => {
+      imgTypeEle.children[0].children[1].classList.toggle("open");
+      imgTypeEle.children[1].style.visibility == "visible" ? imgTypeEle.children[1].style.visibility = "hidden" : imgTypeEle.children[1].style.visibility = "visible";
+});
+
+for (let i = 0; i < options.length; i++) {
+      options[i].addEventListener('click', () => {
+            imgType = options[i].innerHTML;
+            imgTypeEle.children[0].children[0].innerHTML = imgType;
+            imgTypeEle.children[1].style.visibility = "hidden";
+      });
+}
+
+downEle.addEventListener('click', () => {
+      let a = document.createElement("a");
+      document.body.appendChild(a);
+      a.href = cvs.toDataURL(`image/${imgType}`);
+      a.download = `my-board.${imgType}`;
+      a.click();
+      document.body.removeChild(a);
+});
+
+// Record Canvas
+let recIcon = document.getElementsByClassName('record')[0];
+let videoContent = document.getElementsByClassName("download-content-video")[0];
+let videoEle = videoContent.children[1];
+
+const start = async () => {
+      const stream = await navigator.mediaDevices.getDisplayMedia(
+            {
+                  video: {
+                        mediaSource: "screen"
+                  }
+            }
+      );
+
+      const data = [];
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => {
+            data.push(e.data);
+      }
+      mediaRecorder.start();
+      mediaRecorder.onstop = e => {
+            videoEle.src = URL.createObjectURL(
+                  new Blob(data, {
+                        type: data[0].type
+                  })
+            )
+      };
+};
+
+start();
 
 // Eventlistners
 cvs.addEventListener('mousedown', eve => {
@@ -142,6 +216,12 @@ cvs.addEventListener('mousemove', eve => {
       eraseMove(eve);
       if (action == 'eraser') erase(eve.clientX, eve.clientY);
       if (action == 'pen') draw(eve.clientX, eve.clientY);
+      if (eve.x <= 20) {
+            console.log("less 20x");
+      }
+      if (eve.y <= 20) {
+            console.log("less 20y");
+      }
 });
 cvs.addEventListener('mouseup', eve => {
       if (action == 'pen') stopDraw(eve);
@@ -181,8 +261,10 @@ for (let i = 0; i < toolsImg.length; i++) {
       });
       toolsImg[i].addEventListener('click', () => {
             let attrName = tools[i].getAttribute("data-name");
-            if (attrName != 'undo' || attrName != 'redo') action = attrName;
-            if (attrName == 'eraser') {
+            if (attrName != "undo" && attrName != "redo") {
+                  action = attrName;
+            }
+            if (action == 'eraser') {
                   eraserBox.style.display = 'inline-block';
             } else {
                   eraserBox.style.display = 'none';
