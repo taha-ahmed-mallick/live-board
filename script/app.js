@@ -181,18 +181,52 @@ let recIcon = document.getElementsByClassName('record')[0];
 let videoContent = document.getElementsByClassName("download-content-video")[0];
 let videoEle = videoContent.children[1];
 
+async function setupStream() {
+      try {
+            let stream = await navigator.mediaDevices.getDisplayMedia({
+                  video: true
+            });
+
+            let audio = await navigator.mediaDevices.getUserMedia({
+                  audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                  }
+            });
+            setupVideoFeedback();
+      } catch (err) {
+            console.error(err);
+      }
+}
+
+function setupVideoFeedback() {
+      if (stream) {
+            videoEle.srcObject = stream;
+            videoEle.play();
+      } else {
+            console.warn("No stream avaiable");
+      }
+}
+
 const start = async () => {
       const stream = await navigator.mediaDevices.getDisplayMedia(
             {
-                  video: {
-                        mediaSource: "screen"
-                  }
+                  video: true
             }
       );
+      let audio = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                  echoCancellation: true,
+                  noiseSuppression: true,
+                  sampleRate: 44100
+            }
+      });
 
       const data = [];
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.ondataavailable = e => {
+            console.log(e);
             data.push(e.data);
       }
       mediaRecorder.start();
@@ -205,7 +239,7 @@ const start = async () => {
       };
 };
 
-start();
+// start();
 
 // Eventlistners
 cvs.addEventListener('mousedown', eve => {
@@ -322,3 +356,5 @@ for (let i = 0; i < colorElement.length; i++) {
             }
       });
 }
+
+// Background
