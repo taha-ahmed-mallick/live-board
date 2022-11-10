@@ -16,6 +16,10 @@ body {
       -webkit-overflow-scrolling: none;
 }
 
+a {
+      display: none;
+}
+
 div.container {
       position: relative;
       top: 0;
@@ -54,6 +58,11 @@ div.toolbar {
       justify-content: space-evenly;
       box-shadow: 0px 0px 9px 0px #282828;
       background: #f4f6f8;
+      transition: 0.1s linear;
+}
+
+div.toolbar.rec {
+      transform: translateX(-150%);
 }
 
 div.toolbar>div {
@@ -252,6 +261,11 @@ div.other-tool {
       background: #f4f6f8;
       right: 20px;
       transform: scale(1.15);
+      transition: 0.1s linear;
+}
+
+div.other-tool.rec {
+      transform: translateY(-150%);
 }
 
 div.other-tool div {
@@ -297,7 +311,8 @@ div.other-tool div:active::after {
 }
 
 div.download-content-img,
-div.download-content-video {
+div.download-content-video,
+div.background {
       height: 80vh;
       width: 80vw;
       position: absolute;
@@ -441,3 +456,92 @@ div.option-img span {
       align-items: center;
       padding: 7px;
 }
+
+div.background {
+      height: fit-content;
+      width: fit-content;
+}
+
+div.background div:nth-child(2),
+div.background div.desc {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+}
+
+div.background div.desc {
+      position: relative;
+      top: -22px;
+}
+
+div.background div:nth-child(2) div {
+      background: #ffffff;
+      border-radius: 50px;
+      height: 90px;
+      width: 90px;
+      cursor: pointer;
+      overflow: hidden;
+}
+
+div.background div:nth-child(2) div:hover {
+      transform: scale(1.1);
+}
+
+div.desc span {
+      width: 70px;
+      padding: 7px;
+      text-align: center;
+      background: #ffffff;
+      border-radius: 7px;
+      cursor: pointer;
+}
+
+span.circle-grp {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin: 5px 0px;
+}
+
+span.circle {
+      height: 5px;
+      width: 5px;
+      background: #919eab;
+      border-radius: 10px;
+}
+
+span.square-grp {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+}
+
+span.square {
+      height: 15px;
+      width: 15px;
+      border-bottom: 2px solid #919eab;
+      border-left: 2px solid #919eab;
+}
+
+span.line-grp {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+}
+
+span.line {
+      height: 15px;
+      width: 15px;
+      border-bottom: 2px solid #919eab;
+}
+
+/* remove it */
+
+/* div.background {
+      display: flex;
+} */

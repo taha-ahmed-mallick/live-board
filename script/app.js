@@ -15,6 +15,12 @@ let color = {
 };
 let action = 'pen';
 let mode = 'normal';
+let restoreArr = [];
+let tools = document.querySelectorAll('.toolbar>div');
+let toolsImg = document.querySelectorAll('.toolbar>div>.img');
+let option = document.querySelectorAll('.toolbar>div>.option');
+let otherTools = document.getElementsByClassName("other-tool")[0];
+let toolbar = document.getElementsByClassName("toolbar")[0];
 
 // Canvas Sizing
 function resize() {
@@ -24,6 +30,7 @@ function resize() {
       cvs.width = widthW;
       cvsBg.style.height = heightW + "px";
       cvsBg.style.width = widthW + "px";
+      drawLastImg();
 };
 resize();
 window.addEventListener('resize', resize);
@@ -101,7 +108,6 @@ eraserElement.children[2].children[1].addEventListener('click', (eve) => {
 });
 
 // undo functionality
-let restoreArr = [];
 let index = -1;
 let undoElement = document.getElementsByClassName('undo')[0];
 let redoElement = document.getElementsByClassName('redo')[0];
@@ -134,6 +140,10 @@ function redoNext() {
       ctx.putImageData(restoreArr[index], 0, 0, 0, 0, widthW, heightW);
 }
 
+function drawLastImg() {
+      restoreArr.length > 0 ? ctx.putImageData(restoreArr[restoreArr.length - 1], 0, 0, 0, 0, widthW, heightW) : null;
+}
+
 undoElement.addEventListener('click', undoLast);
 redoElement.addEventListener('click', redoNext);
 
@@ -148,10 +158,6 @@ downIcon.addEventListener('click', () => {
       let dataURI = cvs.toDataURL();
       downContent.children[1].src = dataURI;
       downContent.style.display = "flex";
-});
-
-downContent.children[0].addEventListener('click', () => {
-      downContent.style.display = "none";
 });
 
 imgTypeEle.children[0].addEventListener('click', () => {
@@ -180,66 +186,83 @@ downEle.addEventListener('click', () => {
 let recIcon = document.getElementsByClassName('record')[0];
 let videoContent = document.getElementsByClassName("download-content-video")[0];
 let videoEle = videoContent.children[1];
+let recording = false;
 
 async function setupStream() {
       try {
-            let stream = await navigator.mediaDevices.getDisplayMedia({
+            stream = await navigator.mediaDevices.getDisplayMedia({
                   video: true
             });
 
-            let audio = await navigator.mediaDevices.getUserMedia({
+            audio = await navigator.mediaDevices.getUserMedia({
                   audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
                         sampleRate: 44100
                   }
             });
-            setupVideoFeedback();
       } catch (err) {
             console.error(err);
       }
 }
 
-function setupVideoFeedback() {
-      if (stream) {
-            videoEle.srcObject = stream;
-            videoEle.play();
+async function startRecording() {
+      await setupStream();
+
+      if (stream && audio) {
+            mode = "record";
+            toolbar.classList.add("rec");
+            otherTools.classList.add("rec");
+            recording = true;
+            mixedStream = new MediaStream([...stream.getTracks(), ...audio.getTracks()]);
+            recorder = new MediaRecorder(mixedStream);
+            recorder.ondataavailable = handleDataAvaiable;
+            recorder.onstop = handleStop;
+            recorder.start(200);
+            console.log("Recording has started!!!");
       } else {
             console.warn("No stream avaiable");
       }
 }
 
-const start = async () => {
-      const stream = await navigator.mediaDevices.getDisplayMedia(
-            {
-                  video: true
-            }
-      );
-      let audio = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                  echoCancellation: true,
-                  noiseSuppression: true,
-                  sampleRate: 44100
-            }
+let chunks = [];
+
+function handleDataAvaiable(e) {
+      chunks.push(e.data);
+}
+
+function stopRecording() {
+      recorder.stop();
+      recording = false;
+      toolbar.classList.remove("rec");
+      otherTools.classList.remove("rec");
+      mode = "normal";
+      console.log("Recording has stopped!!!");
+}
+
+function handleStop(e) {
+      const blob = new Blob(chunks, {
+            type: "video/mp4"
+      });
+      chunks = [];
+
+      videoContent.style.display = "flex";
+      let a = document.createElement("a");
+
+      videoContent.children[2].addEventListener("click", () => {
+            document.body.append(a);
+            a.href = URL.createObjectURL(blob);
+            a.download = "video.mp4";
+            a.click();
+            document.body.removeChild(a);
       });
 
-      const data = [];
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = e => {
-            console.log(e);
-            data.push(e.data);
-      }
-      mediaRecorder.start();
-      mediaRecorder.onstop = e => {
-            videoEle.src = URL.createObjectURL(
-                  new Blob(data, {
-                        type: data[0].type
-                  })
-            )
-      };
-};
+      videoEle.src = URL.createObjectURL(blob);
+      videoEle.load();
+      videoEle.ondataavailable = () => videoEle.play();
+}
 
-// start();
+recIcon.addEventListener("click", () => recording ? stopRecording() : startRecording());
 
 // Eventlistners
 cvs.addEventListener('mousedown', eve => {
@@ -250,11 +273,10 @@ cvs.addEventListener('mousemove', eve => {
       eraseMove(eve);
       if (action == 'eraser') erase(eve.clientX, eve.clientY);
       if (action == 'pen') draw(eve.clientX, eve.clientY);
-      if (eve.x <= 20) {
-            console.log("less 20x");
-      }
-      if (eve.y <= 20) {
-            console.log("less 20y");
+
+      if (mode == "record") {
+            eve.x <= 20 ? toolbar.classList.remove("rec") : toolbar.classList.add("rec");
+            eve.y <= 20 ? otherTools.classList.remove("rec") : otherTools.classList.add("rec");
       }
 });
 cvs.addEventListener('mouseup', eve => {
@@ -279,9 +301,6 @@ cvs.addEventListener('touchend', eve => {
 });
 
 // some styling on toolbar & basic toolbar functionality
-let tools = document.querySelectorAll('.toolbar>div');
-let toolsImg = document.querySelectorAll('.toolbar>div>.img');
-let option = document.querySelectorAll('.toolbar>div>.option');
 
 for (let i = 0; i < toolsImg.length; i++) {
       console.log(tools[i].children);
@@ -326,7 +345,7 @@ for (let i = 0; i < option.length; i++) {
             input.addEventListener('input', () => {
                   value.innerHTML = input.value + "px";
                   if (i == 0) lineProp.lineWidth = input.value;
-                  if (i == 2) {
+                  if (i == 1) {
                         eraserBox.style.height = input.value + "px";
                         eraserBox.style.width = input.value + "px";
                         eraserSize = input.value;
@@ -357,4 +376,14 @@ for (let i = 0; i < colorElement.length; i++) {
       });
 }
 
-// Background
+// Closing Dialouge Boxes
+
+let close = document.getElementsByClassName('close');
+for (let i = 0; i < close.length; i++) close[i].addEventListener('click', () => close[i].parentElement.style.display = "none");
+
+// Changing Background
+
+let background = "dots";
+let bgDialougeBox = document.getElementsByClassName("background")[0];
+let bg = document.getElementsByClassName("cvs-bg")[0];
+let bgIcon = document.getElementsByClassName("bg")[0];
