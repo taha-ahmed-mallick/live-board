@@ -82,7 +82,6 @@ function resize() {
 };
 resize();
 window.addEventListener('resize', resize);
-window.addEventListener('transitionend', changeBackground);
 
 // Drawing Free Hand
 let painting = false;
@@ -115,13 +114,6 @@ function stopDraw(eve) {
       ctx.beginPath();
       pushImg(eve);
 }
-
-// Text
-let text = false;
-let textProp = {
-      size: 40,
-      color: color.blue
-};
 
 // Eraser Functionality
 let eraserSize = 10;
@@ -425,17 +417,10 @@ for (let i = 0; i < colorElement.length; i++) {
       console.log(colorElement[i].id);
       colorElement[i].style.background = color[colorElement[i].id];
       colorElement[i].addEventListener('click', () => {
-            if (i <= 6) {
-                  console.log("pen");
-                  lineProp.color = color[colorElement[i].id];
-                  console.log(lineProp.color);
-                  for (let j = 0; j < colorElement.length - 7; j++) colorElement[j].classList.remove("slected");
-                  colorElement[i].classList.add("slected");
-            } else if (i <= 13) {
-                  textProp.color = color[colorElement[i].id];
-                  console.log(textProp.color);
-                  for (let j = 7; j < colorElement.length; j++) colorElement[j].classList.remove("slected");
-                  colorElement[i].classList.add("slected");
-            }
+            console.log("pen");
+            lineProp.color = color[colorElement[i].id];
+            console.log(lineProp.color);
+            for (let j = 0; j < colorElement.length; j++) colorElement[j].classList.remove("slected");
+            colorElement[i].classList.add("slected");
       });
 }
