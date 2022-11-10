@@ -22,6 +22,54 @@ let option = document.querySelectorAll('.toolbar>div>.option');
 let otherTools = document.getElementsByClassName("other-tool")[0];
 let toolbar = document.getElementsByClassName("toolbar")[0];
 
+// Closing Dialouge Boxes
+
+let close = document.getElementsByClassName('close');
+for (let i = 0; i < close.length; i++) close[i].addEventListener('click', () => close[i].parentElement.style.display = "none");
+
+// Changing Background
+
+let background = "plain";
+let bgDialougeBox = document.getElementsByClassName("background")[0];
+let bg = document.getElementsByClassName("cvs-bg")[0];
+let bgIcon = document.getElementsByClassName("bg")[0];
+let bgStyles = bgDialougeBox.children[1].children;
+
+bgIcon.addEventListener("click", () => bgDialougeBox.style.display = "flex");
+
+function changeBackground() {
+      bg.innerHTML = "";
+      if (background != "plain") {
+            let element = `<span class="${background}"></span>`;
+            let grp = `<span class="${background}-grp"></span>`;
+            let eleNum = Math.floor(widthW / 15);
+            let grpNum = Math.floor(heightW / 15);
+            for (let i = 0; i <= grpNum; i++) {
+                  bg.innerHTML += grp;
+                  for (let j = 0; j <= eleNum; j++) {
+                        bg.children[i].innerHTML += element;
+                  }
+            }
+      } else bg.innerHTML = "";
+}
+
+changeBackground();
+
+for (let i = 0; i < bgStyles.length; i++) {
+      bgStyles[i].addEventListener('click', () => {
+            if (i == 3) {
+                  background = "plain";
+                  changeBackground();
+            } else {
+                  let classname = bgStyles[i].children[0].children[0].classList[0];
+                  if (classname != background) {
+                        background = classname;
+                        changeBackground();
+                  }
+            }
+      });
+}
+
 // Canvas Sizing
 function resize() {
       widthW = window.innerWidth;
@@ -34,6 +82,7 @@ function resize() {
 };
 resize();
 window.addEventListener('resize', resize);
+window.addEventListener('transitionend', changeBackground);
 
 // Drawing Free Hand
 let painting = false;
@@ -264,13 +313,23 @@ function handleStop(e) {
 
 recIcon.addEventListener("click", () => recording ? stopRecording() : startRecording());
 
+// Pointer
+let pointer = document.querySelector(".container>.pointer");
+
+function pointerMove(eve) {
+      pointer.style.top = `${eve.clientY}px`;
+      pointer.style.left = `${eve.clientX}px`;
+}
+
 // Eventlistners
 cvs.addEventListener('mousedown', eve => {
       if (action == 'eraser') eraseStart(eve);
       if (action == 'pen') startDraw(eve);
 });
 cvs.addEventListener('mousemove', eve => {
+      pointerMove(eve);
       eraseMove(eve);
+      if (action == 'pointer') pointer.classList.add("show");
       if (action == 'eraser') erase(eve.clientX, eve.clientY);
       if (action == 'pen') draw(eve.clientX, eve.clientY);
 
@@ -319,8 +378,13 @@ for (let i = 0; i < toolsImg.length; i++) {
             }
             if (action == 'eraser') {
                   eraserBox.style.display = 'inline-block';
+            } else if (action == 'pointer') {
+                  document.body.classList.add("nocursor");
+                  pointer.classList.add("show");
             } else {
+                  document.body.classList.remove("nocursor");
                   eraserBox.style.display = 'none';
+                  pointer.classList.remove("show");
             }
             if (tools[i].children[2].style.display == 'none' || tools[i].children[2].style.display == '') {
                   for (let j = 0; j < option.length; j++) {
@@ -375,15 +439,3 @@ for (let i = 0; i < colorElement.length; i++) {
             }
       });
 }
-
-// Closing Dialouge Boxes
-
-let close = document.getElementsByClassName('close');
-for (let i = 0; i < close.length; i++) close[i].addEventListener('click', () => close[i].parentElement.style.display = "none");
-
-// Changing Background
-
-let background = "dots";
-let bgDialougeBox = document.getElementsByClassName("background")[0];
-let bg = document.getElementsByClassName("cvs-bg")[0];
-let bgIcon = document.getElementsByClassName("bg")[0];

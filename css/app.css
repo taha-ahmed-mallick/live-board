@@ -16,6 +16,10 @@ body {
       -webkit-overflow-scrolling: none;
 }
 
+.nocursor {
+      cursor: none;
+}
+
 a {
       display: none;
 }
@@ -503,12 +507,12 @@ span.circle-grp {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      margin: 5px 0px;
+      height: 15px;
 }
 
 span.circle {
-      height: 5px;
-      width: 5px;
+      height: 3px;
+      width: 3px;
       background: #919eab;
       border-radius: 10px;
 }
@@ -523,8 +527,8 @@ span.square-grp {
 span.square {
       height: 15px;
       width: 15px;
-      border-bottom: 2px solid #919eab;
-      border-left: 2px solid #919eab;
+      border-bottom: 1px solid #919eab;
+      border-left: 1px solid #919eab;
 }
 
 span.line-grp {
@@ -537,11 +541,24 @@ span.line-grp {
 span.line {
       height: 15px;
       width: 15px;
-      border-bottom: 2px solid #919eab;
+      border-bottom: 1px solid #919eab;
 }
 
-/* remove it */
+div.container div.pointer {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      height: 8px;
+      width: 8px;
+      background: #ff1d0c;
+      box-shadow: 0px 0px 20px 7px #ff1d0c;
+      border-radius: 10px;
+      transition: 0s;
+      z-index: 100;
+      display: none;
+      cursor: none;
+}
 
-/* div.background {
-      display: flex;
-} */
+div.container div.pointer.show {
+      display: inline-block;
+}
