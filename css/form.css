@@ -72,7 +72,7 @@ div.background {
       }
 }
 
-.container {
+div.container {
       position: absolute;
       padding: 20px 40px;
       height: 100vh;
@@ -95,7 +95,7 @@ div.container>div {
 
 div.active {
       top: 50% !important;
-      transform: translateY(-50%) !important;
+      transform: translateY(-45%) !important;
 }
 
 img {
@@ -103,7 +103,7 @@ img {
       margin: 0px 10px;
 }
 
-.container h1 {
+div.container h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #7eb83e;
@@ -113,12 +113,13 @@ h1 span.black {
       color: #000000;
 }
 
-.container a {
+div.container a {
       text-decoration: none;
       color: #7eb83e;
+      cursor: pointer;
 }
 
-.btn {
+button.btn {
       cursor: pointer;
       display: inline-block;
       width: 100%;
@@ -130,30 +131,30 @@ h1 span.black {
       border-radius: 5px;
 }
 
-.btn:focus {
+button.btn:focus {
       outline: 0;
 }
 
-.btn:hover {
+button.btn:hover {
       transform: scale(0.95);
 }
 
-.btn:active {
+button.btn:active {
       transform: scale(1);
 }
 
-.text {
+p.text {
       margin-top: 30px;
       text-align: center;
 }
 
-.form-control {
+div.form-control {
       position: relative;
       margin: 20px 0 40px;
       width: 300px;
 }
 
-.form-control input {
+div.form-control input {
       background: transparent;
       border: 0;
       border-bottom: 2px #7c7c7c solid;
@@ -164,28 +165,28 @@ h1 span.black {
       color: #ffffff;
 }
 
-.form-control input:focus,
-.form-control input:valid {
+div.form-control input:focus,
+div.form-control input:valid {
       outline: none;
       border-bottom-color: #7eb83e;
 }
 
-.form-control label {
+div.form-control label {
       position: absolute;
       top: 15px;
       left: 0;
       z-index: 1;
 }
 
-.form-control label span {
+div.form-control label span {
       display: inline-block;
       font-size: 18px;
       min-width: 5px;
       transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.form-control input:focus+label span,
-.form-control input:valid+label span {
+div.form-control input:focus+label span,
+div.form-control input:valid+label span {
       color: #7eb83e;
       transform: translateY(-30px);
 }
@@ -210,5 +211,19 @@ h1 span.black {
       div.form.active {
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
+      }
+}
+
+@media screen and (max-width: 600px) {
+      div.container {
+            width: 70vw;
+      }
+}
+
+@media screen and (max-width: 520px) {
+      div.container {
+            height: 100vh;
+            width: 100vw;
+            background: #3a7859;
       }
 }
