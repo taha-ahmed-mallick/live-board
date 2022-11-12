@@ -1,1 +1,2 @@
-window.open("./html/app.html", "_self");
+document.getElementsByClassName("sign-in")[0].addEventListener("click", () => window.open("./html/form.html?login=true", "_self"));
+document.getElementsByClassName("sign-up")[0].addEventListener("click", () => window.open("./html/form.html?login=false", "_self"));

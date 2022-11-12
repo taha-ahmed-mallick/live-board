@@ -1,3 +1,19 @@
+let isLogin = window.location.search.split("=")[1];
+let forms = document.getElementsByClassName("form");
+
+isLogin == "true" ? forms[0].classList.add("active") : forms[1].classList.add("active");
+
+let changeForm = document.getElementsByTagName("a");
+
+changeForm[0].addEventListener("click", () => {
+      forms[0].classList.remove("active")
+      forms[1].classList.add("active")
+});
+changeForm[1].addEventListener("click", () => {
+      forms[1].classList.remove("active")
+      forms[0].classList.add("active")
+});
+
 const labels = document.querySelectorAll(".form-control label");
 
 labels.forEach(label => {
