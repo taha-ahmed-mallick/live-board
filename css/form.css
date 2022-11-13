@@ -165,6 +165,10 @@ div.form-control input {
       color: #ffffff;
 }
 
+div.form-control input.error {
+      border-bottom: 2px #D32F2F solid !important;
+}
+
 div.form-control input:focus,
 div.form-control input:valid {
       outline: none;
@@ -189,6 +193,10 @@ div.form-control input:focus+label span,
 div.form-control input:valid+label span {
       color: #7eb83e;
       transform: translateY(-30px);
+}
+
+div.form-control label.error span {
+      color: #D32F2F !important;
 }
 
 @media screen and (max-width: 1000px) {

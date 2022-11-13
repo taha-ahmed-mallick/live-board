@@ -182,7 +182,7 @@ function redoNext() {
 }
 
 function drawLastImg() {
-      restoreArr.length > 0 ? ctx.putImageData(restoreArr[restoreArr.length - 1], 0, 0, 0, 0, widthW, heightW) : null;
+      restoreArr.length > 0 ? ctx.putImageData(restoreArr[index], 0, 0, 0, 0, widthW, heightW) : null;
 }
 
 undoElement.addEventListener('click', undoLast);
